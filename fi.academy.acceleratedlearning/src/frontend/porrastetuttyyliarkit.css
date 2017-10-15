@@ -1,0 +1,63 @@
+body {
+/*  Valitse väri osoitteesta https://color.adobe.com/create/color-wheel  */
+    background-color: #E0FFF2;
+    color: #000;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(https://daks2k3a4ib2z.cloudfront.net/58e5f3f8d26a849c4569f248/58e5f3f8d26a849c4569f2f7_Academy_250x50%20footer.png);
+    /*background-image: url(https://daks2k3a4ib2z.cloudfront.net/58452de5f28ead16137e2298/5888b76045ee40a035118a4c_java.jpg);*/
+    /*background-size: cover;*/
+
+    /* Tämä alla oleva määritys olisi liukuvärjäystä, josta lisävaihtoehtoja osoitteessa https://developer.mozilla.org/fi/docs/Web/CSS/linear-gradient */
+    /*background-image: linear-gradient(red, yellow, green);*/
+}
+
+body > h2 {
+    margin-top: 70px;
+}
+
+img:first-child {
+    margin-top: 70px;
+}
+
+a:hover {
+    text-decoration: none;
+    color: red;
+    text-shadow: #00F 2px 2px 2px;
+}
+
+/*Tuodaan uusi kirjasin (fontti) käytettäväksi*/
+@import url("https://fonts.googleapis.com/css?family=Calligraffitti");
+/*Välittömästi H2-tason otsikkoa seuraava sisarustason <p>aragraph elementin ensimmäinen kirjain*/
+h2 + p:first-letter {
+    counter-reset: inherit;
+    font-style: italic;
+    font-weight: bold;
+    font-variant: normal;
+    font-size: 2em;
+    line-height: normal;
+    text-decoration: none;
+    font-family: "Calligraffitti";
+    background-color: #f8f8ff;
+    color: #1f2532;
+    /*Käyttää vain tarvitsemansa tilan*/
+    display: inline-block;
+    /*Muutoin kuten block, mutta eteen ei tule rivinvaihtoa*/
+}
+
+span {
+    font-style: italic;
+    font-size: 1.15em;
+}
+
+/*<img src="https://www.java.com/ga/images/auto/1367880144308?image=true" alt="Java security" name="coffee" id="asemoitu" />*/
+/*#asemoitu {*/
+    /*position: absolute;*/
+    /*left: 120px;*/
+    /*top: 120px;*/
+/*}*/
+
+.piilossa {
+    display: none;
+}

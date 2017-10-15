@@ -1,0 +1,96 @@
+<!--
+JetBrains: IntelliJ Ultimate
+-->
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta http-equiv="Content-Language" content="fi" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   <!--HTML4-->
+    <meta charset="UTF-8">   <!--HTML5-->
+    <meta name="googlebot" content="noodp">  <!--Pakotetaan googlen hakutuloksessa näkymään itsekirjoitettu description content-->
+    <meta name="description" content="Academy Finland tech portfolio (student Le Gall)" />
+    <meta name="abstract" content="Le Gallin osaamisprofiilin aloitussivu" />
+    <meta name="keywords" content="Le Gall, osaamisprofiili, tech, 12 viikkoa, Academy" />
+    <meta name="robots" content="all" />
+    <meta name="distribution" content="Global" />
+    <meta name="author" content="Mika Le Gall" />
+    <meta name="publisher" content="Academy Finland Espoo Keilaranta, Mika Le Gall" />
+    <meta name="rating" content="general">
+    <meta name="robots" content="index, follow">
+
+    <link rel="stylesheet" href="porrastetuttyyliarkit.css">
+
+    <title>Le Gall, Mika: Academy testiharjoitus</title>
+</head>
+
+<body>
+
+    <h2>
+        <a href ="https://fi.wikipedia.org/wiki/Foobar" target="_blank">Foobar</a> (minulla ei ole yllä olevaan kuvaan sen käyttölupaa)
+    </h2>
+
+<p>
+    Teknisten full stack taitojen tasapainotuksessani (erikoistumisen näkökulmasta) front endin visuaalinen ilme on jätetty
+    graafista silmää omaaville. Erillisessä CSS-tiedostossa ("<a href="porrastetuttyyliarkit.css" target="_blank">porrastetuttyyliarkit.css</a>") on
+    kuitenkin poissa päältä, siis kommentoituna, erilaisia ominaisuuksia havaittavissa. Sama koskee erillistä
+    JavaScript<a href="oliopohjainenkomentosarja.js" target="_blank">-tiedostoa</a>. Molempiin voi tutustua kaikessa rauhassa
+    Git versionhallintaohjelmiston ulkoisessa repositoriossa (säilövässä tallennuspaikassa), julkisen tietoverkon <span>GitHubissa</span>.
+    Kun tutustut erillisiin tiedostoihin ja ohjelmakoodeihinkin, ilahduta minua sillä aikaa jollain kuvalla
+    <!--  Emoji listaus löytyy osoitteesta http://www.amp-what.com/unicode/search/emoticon  -->
+    &#128525;
+
+    <!--  Palvelinpään ohjeet osoitteessa https://www.hostingpalvelu.fi/ohjeet/webhotelli-ohjeet/ohjelmointikielet/muut/lomakkeenkasittelija-cgi/  -->
+        <form action="https://www.academy.fi/cgi-bin/formmail.pl" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="recipient" value="tilisovellus@gmail.com">
+            <input type="hidden" name="ok_message" value="Kiitos mielenkiinnostasi!">
+            <input type="hidden" name="backurl" value="https://drive.google.com/open?id=0BznY_wz_BBesazJKWHpUWk5XVUJaSTVrSEd1RkxyLXdMcmZN">
+            <input type="hidden" name="backurlname" value="Lue lisää kiihdytetystä oppimisesta">
+            <input type="file" name="tiedosto">
+            <br/>
+            <input type="submit" value="Lähetä">
+        </form>
+<br/>
+<span>Githubista voi vaikka raahata jonkin tekeleeni erilliselle sivulle
+    (<a href="code.html" target="_self">linkki koodin tarkastelua helpottavalle sivulle</a>), joka värjää koodin
+    kuin IDE (integrated development environment).</span>
+    <br/>
+    jQuery:lle löytyy oma <a href="ajax.html" target="_self">Ajax-sivunsa</a>, johon on haettu JSON-muodossa kuvia
+</p>
+
+<p>
+<div id="neitiaika"></div>
+
+<b>HUOM! Alla oleva otsikkorivi toimii pudotusvalikkona ja näyttää / piilottaa open data -syötteen, kun otsikkoriviä napsautetaan:</b>
+<h3>Avointa dataa JSONista parsittuna (Liikennevirasto: Junat)</h3>
+<ul class="piilossa" id="lista"></ul>
+</p>
+
+<p>
+<!--
+p*4>lorem100 + tab     // Generoi LoremIpsus tekstiä 4 kappaletta ja siihen 100 sanaa (oletusarvoisesti 30 sanaa)
+<br />
+ul>lorem20*6 + tab     // Tekee pallukkalistan kuudella alkiolla ja niihin jokaiseen 20 sanaa
+-->
+</p>
+
+
+<!--Java script sijoitetaan tulkattavaksi viimeiseksi body elementtiin-->
+<script src="oliopohjainenkomentosarja.js"></script>
+
+<!--OTSIKKO PUDOTUSVALIKKONA (NÄYTÄ / PIILOTA -TOIMINTO) TOTEUTETTUNA ERILLISELLÄ
+JavaScript-kirjastolla (jQuery), joka käyttää CSS-tiedostoa ALKAA-->
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script>
+    $(function () {
+
+        $("h3").click(function () {
+            $(this).next().toggleClass("piilossa");
+        });
+
+    });
+</script>
+<!--OTSIKKO PUDOTUSVALIKKONA (NÄYTÄ / PIILOTA -TOIMINTO) TOTEUTETTUNA ERILLISELLÄ
+JavaScript-kirjastolla (jQuery), joka käyttää CSS-tiedostoa LOPPUU-->
+
+</body>
+</html>
