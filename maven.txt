@@ -1,0 +1,99 @@
+https://maven.apache.org/download.cgi
+--> apache-maven-3.5.2-bin.zip
+--> C:\Program Files\apache-maven-3.5.2
+
+cmd.exe
+set "JAVA_HOME=C:\Program Files\Java\jdk1.8.0_144"	// Ympäristömuuttujan asettaminen
+PATH="C:\Program Files\apache-maven-3.5.2\bin";%PATH%	// Lisää Maven-levityspaketin bin-hakemiston (järjestelmäpolun varteen)
+mvn --version	// Tarkistaa Mavenin "asennuksen" onnistumisen
+
+Luo uusi Maven projektin hakemistorakenne:
+mvn archetype:generate -DarchetypeArtifactId=maven-archetype-quickstart -DgroupId=eu.fi.hki.maven -DartifactId=MikanMavenMalli -DinteractiveMode=false
+//	mvn archetype:generate -DarchetypeArtifactId=mavenarchetype-webapp -DgroupId=eu.fi.hki.maven -DartifactId=WebProjekti -DinteractiveMode=false
+
+--> C:\Users\Administrator\MikanMavenMalli
+Muokkaa pom.xml tiedostosta riippuvuutta päivittämällä jUnit testien versiota (3.8.1 --> 4.12)
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+Lisää pom.xml tiedostoon myös MySQL-connector
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java/5.1.44 -->
+    <dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>5.1.44</version>
+    </dependency>
+
+Lisää pom.xml tiedostoon myös se, että jar-tiedoston voi ajaa komentoriviltä ilman, että määrittelee main-classin nimen
+
+<build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+        </plugins>
+</build>
+
+
+Oletusarvoisesti IntelliJ:n tiedostot tallentuvat murupolkuun
+C:\Users\Administrator\IdeaProjects\
+
+Valitse IntelliJ:ssä New | Project with Existing Sources
+Navigoi asennuspolkuun
+--> C:\Users\Administrator\MikanMavenMalli
+--> Valitse Maven projektin rakenteeksi
+Hyväksy seuraavat sivut oletuksilla
+
+Aja testit Maven Projects ikkunan kautta: View | Tool Windows | Maven Projects
+
+
+
+
+
+pom.xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>eu.fi.hki.maven</groupId>
+  <artifactId>MikanMavenMalli</artifactId>
+
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>MikanMavenMalli</name>
+  <url>http://maven.apache.org</url>
+
+  <dependencies>
+    
+	<dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+	
+	<dependency>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java/5.1.44 -->
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.44</version>
+    </dependency>
+	
+  </dependencies>
+  
+	<build>
+		<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+        </plugins>
+	</build>
+
+</project>
+
+

@@ -83,19 +83,21 @@ kyselija.onreadystatechange = function () {
             // avain-arvo -pari taulukko). Konsolilta nähdään mitä avaimia eri arvoille on tarjolla
             console.dir(taulu);
 
-            for (var i = 0 ; i < taulu.length ; i++){
-                var junaTaulukkona = taulu[i];
+
+            for (var indexEka = 0 ; indexEka < taulu.length ; indexEka++){
+                var junaTaulukkona = taulu[indexEka];
 
                 var lahtoaika = new Date(junaTaulukkona.timeTableRows[0].scheduledTime);
                 var stilisointi = {hour: "2-digit", minute: "2-digit", hour12: false};
                 var taulukonKoko = junaTaulukkona.timeTableRows.length;
                 var saapumisaika = new Date();  // Esitellään ennen seuraavaa silmukaa muuttuja, silmukan ulkopuolella
 
-                // TODO: Selvitä miksi (for"i") loop ei jatka silmukointia (listaa kaikki saatavilla olevat junat eikä ainoastaan yhtä)
-                for (var i = 0 ; i < junaTaulukkona.timeTableRows.length ; i++){
+                // Java scriptissä ei voi käyttää ns. "fori"-silmukassa saman nimistä muuttujaa
+                // kuin toisessa forissa; sen vuoksi nimeäminen indexEka ja indexToka
+                for (var indexToka = 0 ; indexToka < junaTaulukkona.timeTableRows.length ; indexToka++){
 
-                    if (junaTaulukkona.timeTableRows[i].stationShortCode === "LR"){
-                        saapumisaika = new Date(junaTaulukkona.timeTableRows[i].scheduledTime);
+                    if (junaTaulukkona.timeTableRows[indexToka].stationShortCode === "LR"){
+                        saapumisaika = new Date(junaTaulukkona.timeTableRows[indexToka].scheduledTime);
                         // Pysäytetään silmukka ensimmäisellä kerralla ehtolauseeseen astuttaessa,
                         // koska seuraava saman pysäkin kellonaika on junan matkan jatkumisen aika
                         // eli lähtöaika samalta asemalta

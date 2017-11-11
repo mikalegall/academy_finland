@@ -1,7 +1,7 @@
-package java8se;
+package fi.academy.acceleratedlearning.java8se;
 
-import java8se.kryptologia.Caesar;
-import java8se.pelit.Tietovisa;
+import fi.academy.acceleratedlearning.java8se.kryptologia.Caesar;
+import fi.academy.acceleratedlearning.java8se.pelit.Tietovisa;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,7 +55,7 @@ public class ProgramRun {
 
 }
 
-// (cast) on tyyppimuunnos
+// (cast) on tyyppimuunnos esim. String merkki = "" + 6;
 // List<Tyyppi> Arrays.asList(taulukko)     // primitiivityypit eivät käy
 // String[] taulukko = lista.toArray();
 // Luokan täytyy implements java.io.Serializable jos halutaan siirtää esim. HashMap
