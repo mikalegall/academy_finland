@@ -9,7 +9,8 @@ mvn --version	// Tarkistaa Mavenin "asennuksen" onnistumisen
 
 Luo uusi Maven projektin hakemistorakenne:
 mvn archetype:generate -DarchetypeArtifactId=maven-archetype-quickstart -DgroupId=eu.fi.hki.maven -DartifactId=MikanMavenMalli -DinteractiveMode=false
-//	mvn archetype:generate -DarchetypeArtifactId=mavenarchetype-webapp -DgroupId=eu.fi.hki.maven -DartifactId=WebProjekti -DinteractiveMode=false
+//	mvn archetype:generate -DarchetypeArtifactId=maven-archetype-quickstart -DgroupId=fi.academy -DartifactId=mvnlaskin -DinteractiveMode=false
+//	mvn archetype:generate -DarchetypeArtifactId=mavenarchetype-webapp -DgroupId=fi.academy -DartifactId=WebProjekti -DinteractiveMode=false
 
 --> C:\Users\Administrator\MikanMavenMalli
 Muokkaa pom.xml tiedostosta riippuvuutta päivittämällä jUnit testien versiota (3.8.1 --> 4.12)
@@ -51,48 +52,121 @@ Hyväksy seuraavat sivut oletuksilla
 
 Aja testit Maven Projects ikkunan kautta: View | Tool Windows | Maven Projects
 
-
-
-
-
 pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>eu.fi.hki.maven</groupId>
-  <artifactId>MikanMavenMalli</artifactId>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>MikanMavenMalli</name>
-  <url>http://maven.apache.org</url>
+    <groupId>org.springframework</groupId>
+    <artifactId>gs-jpa-one-to-one</artifactId>
+    <version>0.1.0</version>
 
-  <dependencies>
-    
-	<dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-	
-	<dependency>
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java/5.1.44 -->
-		<groupId>mysql</groupId>
-		<artifactId>mysql-connector-java</artifactId>
-		<version>5.1.44</version>
-    </dependency>
-	
-  </dependencies>
-  
-	<build>
-		<plugins>
+    <packaging>jar</packaging>
+    <!-- <version>1.0-SNAPSHOT</version> -->
+    <name>Viikko_9_spring_thymeleaf</name>
+    <url>http://maven.apache.org</url>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.8.RELEASE</version>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!-- JPA Data (We are going to use Repositories, Entities, Hibernate, etc...) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <!-- Use MySQL Connector-J -->
+            <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java/5.1.44 -->
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.44</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
         </plugins>
-	</build>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
 
