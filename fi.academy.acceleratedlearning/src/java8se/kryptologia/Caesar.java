@@ -1,9 +1,4 @@
 package java8se.kryptologia;
-//public class Caesar {
-//    public static void kaynnista(){
-//        System.out.println("Salakirjoitusohjelma käynnistetty!");
-//    }
-//}
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,19 +6,13 @@ import java.io.InputStreamReader;
 
 public class Caesar {
 
-    // TODO: Selvitä miksi antaa virheilmoituksia, kun käynnistetään ProgramRun kautta (muutoin kyllä toimii)
-    public static void kaynnista(){
-//    Caesar.main(null);
-    }
-
-    public static void main(String[] args) {
+    public static void kaynnista() {
 
         System.out.print("Anna salattava: ");
         String merkkijono = null;
         try (
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        )
-        {
+        ) {
             merkkijono = in.readLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -38,9 +27,7 @@ public class Caesar {
     }
 
 
-
-
-    String salaa(String salattava){
+    String salaa(String salattava) {
 
         String salattu = "";
 
@@ -58,7 +45,8 @@ public class Caesar {
         return salattu;
     }
 
-    String pura(String purettava){
+
+    String pura(String purettava) {
 
         String purettu = "";
 
@@ -72,3 +60,4 @@ public class Caesar {
         return purettu;
     }
 }
+

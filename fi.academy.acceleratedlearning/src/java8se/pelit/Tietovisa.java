@@ -41,7 +41,6 @@ public class Tietovisa {
                 System.out.println("Vastausvaihtoehdot ovat");
                 System.out.println(temp.getVastausvaihtoehdot());
                 System.out.print("Anna vastausvaihtoehdoksi vain numero 1-3: ");
-                // TODO: Selvitä miksi ei pysähdy tähän odottamaan käyttäjän syötettä silloin, kun käynnistetään ProgramRun:ista
                 int vastaus = Integer.parseInt(lukija.nextLine());
 
                 int oikea = temp.getOikeanVaihtoehdonIndeksi();

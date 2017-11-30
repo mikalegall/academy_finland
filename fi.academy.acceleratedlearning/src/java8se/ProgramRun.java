@@ -1,7 +1,7 @@
-package fi.academy.acceleratedlearning.java8se;
+package java8se;
 
-import fi.academy.acceleratedlearning.java8se.kryptologia.Caesar;
-import fi.academy.acceleratedlearning.java8se.pelit.Tietovisa;
+import java8se.kryptologia.Caesar;
+import java8se.pelit.Tietovisa;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,20 +28,20 @@ public class ProgramRun {
             // Luetaan käyttäjän antama syöte ja asetetaan se vastaukseksi (valinnaksi)
             // käyttäjälle esitettyyn kysymykseen
             valinta = in.readLine();
+            // Huvikseen switch-ehtolause vaikka se on jostain ohjelmointikielestä jopa poistettu tietoisella päätöksellä
+            switch (valinta) {
+                case "1":
+                    aja1();
+                    break;
+                case "2":
+                    aja2();
+                    break;
+                default:
+                    System.out.println("Syötteeksi kelpaa vain ilmoitettu numero, yritä uudelleen");
+            }
+
         } catch (IOException e) {
             System.out.println("Syötteenlukijassa tapahtui jotain odottamatonta...\nYritä uudelleen");
-        }
-
-        // Huvikseen switch-ehtolause vaikka se on jostain ohjelmointikielestä jopa poistettu tietoisella päätöksellä
-        switch (valinta) {
-            case "1":
-                aja1();
-                break;
-            case "2":
-                aja2();
-                break;
-            default:
-                System.out.println("Syötteeksi kelpaa vain ilmoitettu numero, yritä uudelleen");
         }
     }
 

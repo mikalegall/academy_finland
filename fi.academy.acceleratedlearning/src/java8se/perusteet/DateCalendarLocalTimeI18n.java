@@ -34,7 +34,9 @@ public class DateCalendarLocalTimeI18n {
         vanhaPaivays.setTime(0);
         // Tulostaa Date-luokan (Class) toteutuksen aloitusajanhetken
         System.out.println(vanhaPaivays);
-        
+
+System.out.println("**********************************************************************************************************************************************");
+
         Calendar uudempiCalendar = new GregorianCalendar(97, 7, 15);
 
         // TODO: Muunna Date-oliosta --> Calendar-olioksi
@@ -44,6 +46,9 @@ public class DateCalendarLocalTimeI18n {
         // foo..getTime();                   Calendar -> Date
         Date kalenteriDate = uudempiCalendar.getTime();
 
+        System.out.println(kalenteriDate);
+
+System.out.println("**********************************************************************************************************************************************");
 
         // Ajankohdan muuntaminen Java8 päivämäärätoteutuksen olioksi
         LocalDate roberto = LocalDate.of(2002, Month.JULY, 20);
@@ -57,6 +62,8 @@ public class DateCalendarLocalTimeI18n {
                 + ikaero.getMonths() + " kuukautta ja " + ikaero.getDays() +" päivää.");
     }
 }
+
+// **********************************************************************************************************************************************
 
 // Tekstikenttien muuttaminen .properties-tiedostosta ResourceBundle-luokalla, jossa
 // MessageFormat-luokka, jossa ChoiceFormat-luokka
