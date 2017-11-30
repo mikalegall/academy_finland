@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>eu.fi.academy.espoo</groupId>
+    <artifactId>Mikan Maven-malli</artifactId>
+    <version>0.1.0</version>
+
+    <packaging>jar</packaging>
+    <!-- <version>1.0-SNAPSHOT</version> -->
+    <name>maven-spring-react</name>
+    <url>http://maven.apache.org</url>
+
+	<properties>
+        <java.version>1.8</java.version>
+    </properties>
+	
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.8.RELEASE</version>
+    </parent>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+		        <!--Java8 DateTime tukea-->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-java8time</artifactId>
+            <version>2.1.0.RELEASE</version> <!-- sprint-boot-starter käyttää thymeleaf 2.1.5, eli ei oteta uudempaa 3.0.0.RELEASE -->
+        </dependency>
+		
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!-- JPA Data (We are going to use Repositories, Entities, Hibernate, etc...) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <!-- Use MySQL Connector-J -->
+            <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java/5.1.44 -->
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.44</version>
+        </dependency>
+
+			<!-- Tekee Springissä @Entitylle getterit ja setterit jne annotaatiolla @Data-->
+		<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+		
+    </dependencies>
+
+    <build>
+        <plugins>
+            
+			<plugin>
+                <groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+			
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+						
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+						<version>3.2.0</version>
+						
+						<!-- Onkohan tämä pötkylä oikeassa kohdassa? -->
+						<webResources><resource><directory>src/main/frontend/build</directory></resource></webResources>
+
+							<configuration>
+								<archive>
+									<manifest>
+										<addClasspath>true</addClasspath>
+									</manifest>
+								</archive>
+							</configuration>
+			</plugin>
+
+
+			<!-- ALKAA: "Mahdollistaa  React:in käytön Maven-projektissa" -->
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+					<!-- Use the latest released version:
+					https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+				<version>1.6</version>
+				
+				<executions>
+
+					<execution>
+						<id>install node and npm</id>
+							<goals>
+								<goal>install-node-and-npm</goal>
+							</goals>
+
+						<configuration>
+								<!-- See https://nodejs.org/en/download/ for latest node and npm (lts) versions -->
+							<nodeVersion>v8.9.1</nodeVersion>
+								<npmVersion>5.5.1</npmVersion>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>npm install</id>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+								<!-- Optional configuration which provides for running any npm command -->
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+
+				<execution>
+					<id>npm run build</id>
+						<goals>
+							<goal>npm</goal>
+					</goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+				</execution>
+
+				<execution>
+					<id>bower install</id>
+						<goals>
+							<goal>bower</goal>
+						</goals>
+					<configuration>
+						<arguments>install</arguments>
+					</configuration>
+				</execution>
+
+				<execution>
+					<id>jspm install</id>
+						<goals>
+							<goal>jspm</goal>
+						</goals>
+					<configuration>
+						<arguments>--version</arguments>
+					</configuration>
+				</execution>
+
+				<execution>
+					<id>grunt build</id>
+						<goals>
+							<goal>grunt</goal>
+						</goals>
+					<configuration>
+						<arguments>--no-color</arguments>
+					</configuration>
+				</execution>
+
+				<execution>
+					<id>gulp build</id>
+						<phase>generate-resources</phase>
+					<goals>
+						<goal>gulp</goal>
+					</goals>
+					<configuration>
+						<environmentVariables>
+							<NODE_ENV>production</NODE_ENV>
+						</environmentVariables>
+					</configuration>
+				</execution>
+
+				<execution>
+					<id>javascript tests</id>
+						<goals>
+						<!-- HUOM! Testien ajamiseen voi käyttää halutessaan myös esim. 
+								<goal>npm</goal> 
+								</goals>
+								<phase>test</phase>
+								<configuration>
+								<environmentVariables>
+								<CI>true<CI>
+								</environmentVariables>
+								<arguments>test</arguments>
+								</configuration> -->
+							<goal>karma</goal>
+						</goals>
+					<configuration>
+						<karmaConfPath>src/test/javascript/karma.conf.ci.js</karmaConfPath>
+					</configuration>
+				</execution>
+
+        </executions>
+			<!-- LOPPUU: "Mahdollistaa  React:in käytön Maven-projektissa" -->
+		
+			</plugin>
+ 
+			
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
+
+
