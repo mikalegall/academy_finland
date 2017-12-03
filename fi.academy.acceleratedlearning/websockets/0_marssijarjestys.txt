@@ -1,0 +1,235 @@
+1. Luo viestinv‰litt‰j‰
+@EnableWebSocketMessageBroker
+joka mahdollistaa websocketien k‰ytˆn
+
+2. M‰‰rittele STOMP-protokollalle osoite, johon asiakasselain ottaa yhteytt‰ rekisterˆity‰kseen
+registry.addEndpoint("/rekisteroidy");
+
+3. M‰‰rittele SockJS fallback-tuki, jota k‰ytet‰‰n mik‰li k‰ytt‰j‰n selain ei tue websocketteja
+registry.addEndpoint("rekisteroidy").withSockJS();
+
+4. Konfiguroi palvelimelle sis‰‰ntulokanava asiakasselaimille, johon tullut liikenne ohjataan edelleen viestinv‰litt‰j‰lle
+config.setApplicationDestinationPrefixes("/pistoke");
+
+5. Luo viestinv‰litt‰j‰lle murupolku, jota pitkin vastaukset l‰hetet‰‰n asiakasselaimelle (loppuk‰ytt‰j‰lle)
+config.enableSimpleBroker("/keskustelunaihe_ulos");
+
+6. Vastaanota saapuvat viestil‰hetykset STOMP-protokollan selainasiakkaalta
+@MessageMapping("/viestit_sisaan")
+
+7. K‰sittele saapunut viesti
+public UlosLahtevaViesti kasitteleSaapuvaviestiLahetettavaksi(SaapuvaViesti sanoma) throws Exception {
+String ajankohta = new SimpleDateFormat("HH:mm").format(new Date());
+return new UlosLahtevaViesti(sanoma.getLahettaja(), sanoma.getViestinteksti(), ajankohta);
+
+8. L‰het‰ k‰sitelty viesti annotaatiossa m‰‰riteltyyn osoitteeseen
+@SendTo("/keskustelunaihe_ulos/viestisanoma")
+josta kaikki keskusteluaiheen seuraajat (tilaajat) vastaanottavat l‰hetyksen
+
+9. <html>
+<head>
+    <title>Pistoke-WebSocket ts‰tt‰ilyyn</title>
+
+<!--
+    Long polling is known to cause problems on Heroku, but a workaround for SockJS is available.
+    https://github.com/sockjs/sockjs-node/issues/57#issuecomment-5242187
+-->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.1/sockjs.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+10. pom.xml ("v‰h‰n" turhan raskas, mutta toimii, joten karsi omaan tarpeeseen sopivaksi)
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>eu.fi.academy.espoo</groupId>
+    <artifactId>jari_maiju_mika_pekka_webSockets</artifactId>
+    <version>0.1.0</version>
+
+    <packaging>jar</packaging>
+    <!-- <version>1.0-SNAPSHOT</version> -->
+    <name>maven-spring-websocket</name>
+    <url>http://maven.apache.org</url>
+
+	<properties>
+        <java.version>1.8</java.version>
+    </properties>
+	
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.8.RELEASE</version>
+    </parent>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>sockjs-client</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>stomp-websocket</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.3.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>4.2.4.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>4.2.4.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+		        <!--Java8 DateTime tukea-->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-java8time</artifactId>
+            <version>2.1.0.RELEASE</version> <!-- sprint-boot-starter k‰ytt‰‰ thymeleaf 2.1.5, eli ei oteta uudempaa 3.0.0.RELEASE -->
+        </dependency>
+		
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!-- JPA Data (We are going to use Repositories, Entities, Hibernate, etc...) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <!-- Use MySQL Connector-J -->
+            <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java/5.1.44 -->
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.44</version>
+        </dependency>
+
+			<!-- Tekee Springiss‰ @Entitylle getterit ja setterit jne annotaatiolla @Data-->
+		<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+		
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
