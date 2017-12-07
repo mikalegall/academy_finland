@@ -1,6 +1,6 @@
 package eu.fi.hki.maven;
 
-public class SaapuvaViesti {
+public class ViestiSisaan {
 
     private String lahettaja;
     private String viestinteksti;

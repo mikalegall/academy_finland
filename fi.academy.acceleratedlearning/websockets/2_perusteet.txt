@@ -56,7 +56,7 @@ public class NaruistaVetelijaKontrolleri {
     // Saapunut viesti käsitellään ja sen jälkeen se lähetetään tässä määriteltyyn osoitteeseen,
     @SendTo("/keskustelunaihe_ulos/viestisanoma")
     // josta kaikki keskusteluaiheen seuraajat (tilaajat) vastaanottavat lähetyksen
-    public UlosLahtevaViesti kasitteleLahetettavaViesti(SaapuvaViesti sanoma) throws Exception {
+    public UlosLahtevaViesti kasitteleSaapuvaviestiLahetettavaksi(SaapuvaViesti sanoma) throws Exception {
 
         String ajankohta = new SimpleDateFormat("HH:mm").format(new Date());
         return new UlosLahtevaViesti(sanoma.getLahettaja(), sanoma.getViestinteksti(), ajankohta);

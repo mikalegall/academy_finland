@@ -18,7 +18,9 @@ ja asenna sinne 'Create React App' generoima pohjatoteutus:
 cmd
 create-react-app "tamaonprojektinnimi" (ilman lainausmerkkejä!)
 cd tamaonprojektinnimi
+npm install
 npm install --save react-router-dom
+npm install sockjs-client --save
 
 --X--X--
 
