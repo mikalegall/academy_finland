@@ -20,7 +20,10 @@ create-react-app "tamaonprojektinnimi" (ilman lainausmerkkejä!)
 cd tamaonprojektinnimi
 npm install
 npm install --save react-router-dom
-npm install sockjs-client --save
+npm install --save sockjs-client
+npm install --save react-beforeunload
+npm install --save bootstrap@3
+// npm install --save bootstrap@4.0.0-alpha.6
 
 --X--X--
 
