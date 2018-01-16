@@ -1,0 +1,217 @@
+JDBC
+DriverManager
+
+String sql = "SELECT * FROM Asiakas WHERE nimi1 LIKE ?";
+
+Connection yhteysOlio = DriverManager.getConnection(
+"jdbc:jtds:sqlserver://palvelin/kanta");
+
+Statement lause = yhteysOlio.createStatement();
+
+ResultSet tulos = lause.executeQuery (sql);
+
+--X--X--
+
+String sql = "SELECT * FROM Asiakas WHERE nimi1 LIKE ?";
+
+Connection yhteysOlio = DriverManager.getConnection(
+"jdbc:jtds:sqlserver://palvelin/kanta");
+
+PreparedStatement lause = yhteysOlio.prepareStatement(sql);
+lause.setString(1, "Laine%");
+ResultSet tulos = lause.executeQuery();
+
+***
+
+JDBC 
+DataSource
+
+DriverManager sijaan voidaan DataSource-oliolla pyytää palvelimelta (connection pool:ista)
+Connection olio, jonka yhteyttä hallitaan Bean -ominaisuuksien (property) kautta
+
+Connection yhteys = null;
+String kayttajatunnus = "foo";
+String salasana = "loremipsus";
+
+net.sourceforge.jtds.jdbcx.JtdsDataSource tietoLahde = new net.sourceforge.jtds.jdbcx.JtdsDataSource();
+tietoLahde.setServerName("localhost");
+tietoLahde.setDatabaseName("world");
+tietoLahde.setLoginTimeout(10);
+
+yhteys = tietoLahde.getConnection(kayttajatunnus, salasana);
+
+--> Beanille voidaan välittää DataSource-olio annotaatiolla:
+
+@Resource(mappedName = "yhteysallas")	// Annotaatio @Resource = DataSourcen injektointi (Muita injektointi annotaatioita löytyy esim. Springistä @Inject, @Autowired)
+private DataSource tietovarasto;
+
+***
+
+Spring: JDBC
+JdbcTemplate
+
+MAVEN pom.xml
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-jdbc</artifactId>
+</dependency>
+
+
+@Controller
+public class NeljasKontrolloija {
+
+			// @Autowired
+			// JdbcTemplate jdbc;
+			// jdbc.execute("CREATE TABLE customers(id SERIAL, first_name VARCHAR(255), last_name VARCHAR(255))");
+
+	// Metodi
+    public NeljasKontrolloija(@Autowired JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+
+		// jdbc.execute("DROP TABLE customers IF EXISTS");
+			jdbc.execute("CREATE TABLE customers(id SERIAL, first_name VARCHAR(255), last_name VARCHAR(255))");
+		
+		// Uses JdbcTemplate's batchUpdate operation to bulk load data
+        // Mikäli olisi vain ainoa päivitettävä ei tarvitsisi bulkata vaan "jdbc.Update" riittäisi
+        // Bulkki kerää kaikki yhteen ja tekee suorituksen kerralla
+			jdbc.batchUpdate("INSERT INTO customers(first_name, last_name) VALUES (?,?)", splitUpNames);
+
+		}
+	
+	}
+	
+
+
+***
+
+JPA (Java Persistence API)
+
+@Entity // Tämä ilmoittaa Hibernatelle, että tee tästä Java-luokasta tietokantataulu. Tässä Java-luokassa on oltava julkinen tai protected-näkyvyydelle määritelty parametriton
+konstruktori (oletuskonstruktori riittää), tämä luokka ei voi olla final tai enum (etukäteen määritellyt tyypit omaava), tälle luokalle täytyy luoda getterit ja setterit
+// @Table (name = "maa")  Tässä voidaan antaa tietokantataulun nimi mikäli luokan nimi on eroava eli halutaan käyttää aliasta
+	@Table(name = "FOOBAR") // Hibernate natiivilla ilman nimeämistä oletusarvoinen taulu luotaisiin nimellä EVENT
+public class LoremIpsus implements Serializable {
+    @Id // Tämä määrittää entiteetin identiteetin yhdeksi kentäksi
+	@GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(generator = "increment")    // Hibernate natiivilla + alla oleva annotaatio
+    @GenericGenerator(name = "increment", strategy = "increment")  // Hibernate natiivilla
+    private long id;
+	
+	private Integer numero; // Vaikka tietokannassa on int käytetään tässä wrapperia, koska taulussa saattaa olla NULL
+	
+	@Lob // String on oletusarvoisesti VARCHAR(255), lisäämällä annotaation @Lob tulee tyypiksi TEXT (voi tosin riippua kannasta!)
+	private String biisinSanat;
+	
+	// Annotaatio @Temporal kertoo, että Sarake on aikatyyppiä.
+    // Tämä pitää määrittää java.util.Date- ja java.util.Calendar
+    // tyyppisille kentille; tällä tarkennetaan onko kyseessä päivämäärä, aika vai molemmat
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EVENT_DATE")
+    public Date getDate() {
+        return date;
+    }
+
+	
+		// Alla olevat annotaatiot pitävät tietokantatauluissa omistavan osapuolen ja käänteisen osapuolen konsistentteina (päivitykset kulkevat olioista tietokantaan ja olioihin)
+		// @OneToOne // @ManyToOne // @ManyToMany
+    @OneToOne(cascade = CascadeType.ALL) // Cascade määrittää mitkä operaatiot päivitetään kytköksissä oleviin tietokantatauluihin
+	// https://en.wikipedia.org/wiki/Propagation_constraint
+		// ALL vastaa erikseen annettavia MERGE, PERSIST, REFRESH, REMOVE eli kaikkia edellä lueteltuja
+		// Omistava pää on aina se, jossa on vierasavain (FK) ja se toinen pää on se @OneToOne(mappedBy = "foo")
+			// @OneToOne(fetch = FetchType.LAZY)  // Oletusarvo on EAGER. HUOM! fetch ei löydy SQL
+    @JoinColumn(name = "capital") // Liitä tästä omasta taulusta tämä sarake (JoinColumn on omistava)
+	private City capital;  // Tähän tauluun
+
+
+--X--X--
+
+Spring modelViewCONTROLLER
+	
+// Ilman annotaatiota kyseessä on vain "tavallinen" java-luokka	
+@Controller // This means that this class is a Controller; joka käyttää tietokantaa Hibernate --> HibernateAPI TAI Hibernate --> Java Persistence API (JPA)
+public class NaruistaVetelijaKontrolleri {
+		@Autowired // This means to get the bean called CountryRepository
+		// Which is auto-generated by Spring, we will use it to handle the data
+		private CountryRepository maarepo;
+ 
+ private URI teeURI(String osoite) {
+        return UriComponentsBuilder.newInstance()
+                .scheme("http").host("localhost").port(8080)
+                .pathSegment("kyselyt", osoite).build().toUri();
+    }
+
+		m.addAttribute("maat", maarepo.haeKaupungitYhdellaNimella("Wien"));
+		model.addAttribute("nykyinen", pageable.getPageNumber()); // tai sivu.getNumber()
+
+
+--X--X--
+
+Spring Data (käyttää Hibernate & Java Persistence API)
+* Autogeneroitu DAO-kerros (interface --> repository)
+Interface'in perusteella Spring luo uuden Beanin, jonka avulla tietokantaa voi käyttää Entity-olioiden (Java-luokkien) avulla
+
+
+// This is the repository interface, this will be automatically implemented by Spring in a bean
+// with the same name with changing case The bean name will be userRepository
+// This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
+// CRUD refers Create, Read, Update, Delete
+  // https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/
+	 // --> CrudRepository.html
+	public interface AddressRepository extends CrudRepository<Address, Long> {
+	}
+	
+	// public interface LoremIpsus extends JpaRepository<Country, Integer> {
+	// public interface CityRepository extends PagingAndSortingRepository<City, Long> {
+// Repon metodien luomiset https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.query-creation
+	// find…By, read…By, query…By, count…By, get…By tai reop.save() löytyvät oletuksena ja jos niiden lisäksi halutaan jotain toiminnallisuutta,
+		// niin sitten interfaceen kirjoitetaan omia hakuja 
+
+--X--X--
+
+JPQL
+* pohjautuu Hibernate Query Language (HQL)
+* löytyy fetch (joka muuttaa lazyn --> eager eli pakottaa hakemaan kaikki viittaukset välittömästi). HUOM! fetch ei löydy SQL
+* tuntee vastaavat JOIN-operaatiot kuten SQL (vähentää karteesisen tulon kokoa implisiittisesti)
+* sallii merkkijonojen väliset vertailut (WHERE ehto), mutta tulos riippuu käytettävästä tietokannasta
+Query-annotaatiolla annetaan interface repossa JPQL kysely, jota käytetään metodikutsun yhteydessä
+
+	public interface FoobarRepository extends CrudRepository<Document, Long> {
+
+	@Query("SELECT u FROM User u WHERE u.name NOT LIKE '% %'")
+	List<User> haeKaupungitYhdellaNimella();
+
+CONCAT-metodi
+	// @Query("SELECT u FROM User u WHERE u.name LIKE CONCAT('%', :nimi, '%') ")
+	// List<User> haeKayttajatNimella(@Param("nimi") String nimi);
+
+	// @Query("SELECT c FROM City c WHERE c.country IN (SELECT c2 FROM Country c2 WHERE c2.capital.name LIKE CONCAT('%', :kaupunki, '%'))")
+	// List<City> haeKaupungitYhdellaNimella(@Param("kaupunki") String capital);
+
+		@Query(value = "SELECT * FROM Country  WHERE population >= :population ORDER BY population LIMIT :limiitti", nativeQuery = true)
+		List<Country> haePopulaationMaarallaLimit(@Param("population") int populaatio, @Param("limiitti") int limiitti);
+
+Testi tyhjyyden määrittämiseksi (joukot eivät koskaan ole null)
+FROM Tilaus t WHERE t.tilausrivit IS EMPTY
+FROM Tilaus t WHERE t.tilausrivit IS NOT EMPTY
+
+************
+
+		
+HQL
+* JPA:sta poiketen @Entity luokka voi olla myös enum https://en.wikipedia.org/wiki/Enumerated_type#Java
+JÄIN TÄHÄN https://en.wikipedia.org/wiki/Hibernate_(framework)#Hibernate_Query_Language_.28HQL.29
+
+http://docs.jboss.org/hibernate/orm/current/quickstart/html_single/
+hibernate.cfg.xml configuration file
+META-INF/persistence.xml
+
+SessionFactory
+http://docs.jboss.org/hibernate/stable/core/javadocs/org/hibernate/SessionFactory.html
+
+
+interface "repo" (Session implementations are not expected to be thread safe nor to be used by multiple clients.)
+org.hibernate.Session interface
+
+
+
+
