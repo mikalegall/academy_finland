@@ -1,0 +1,60 @@
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.6.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+**************************************************************************************************************************
+
+
+Controller1.java
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@EnableSwagger2 // Generate documentation for a Spring REST API http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api
+                // ja näytä käytettävissä olevat APIt osoitteessa http://localhost:8080/swagger-ui.html
+// Tarjotaan REST-rajapinta
+// https://spring.io/guides/tutorials/react-and-spring-data-rest/
+@RestController
+public class Controller1 {
+
+
+**************************************************************************************************************************
+
+
+SwaggerConfig.java
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+// Generate documentation for a Spring REST API http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api
+@Configuration
+@EnableSwagger2
+public class SwaggerConfig {
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build();
+    }
+}
+
