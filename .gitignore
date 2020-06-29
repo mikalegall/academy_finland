@@ -10,6 +10,13 @@
 /out/
 *.iml
 
+# Eclipse files
+/.project
+/.classpath
+/.settings
+/target
+
+
 # BlueJ files
 *.ctxt
 
