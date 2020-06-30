@@ -3,7 +3,6 @@ package yoga.kulatantra;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 public class Main {
 

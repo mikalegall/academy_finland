@@ -89,6 +89,7 @@
 
 		<!-- Tekee Springissä @Entitylle getterit ja setterit jne annotaatiolla 
 			@Data -->
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
