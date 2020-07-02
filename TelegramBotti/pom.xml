@@ -84,7 +84,7 @@
 			<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java/5.1.44 -->
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.44</version>
+			<version>8.0.16</version>
 		</dependency>
 
 		<!-- Tekee Springissä @Entitylle getterit ja setterit jne annotaatiolla 
